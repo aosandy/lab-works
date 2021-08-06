@@ -1,5 +1,6 @@
-#include <boost/test/unit_test.hpp>
 #include <string>
+
+#include <boost/test/unit_test.hpp>
 
 #include "phonebook.hpp"
 
@@ -31,10 +32,10 @@ struct Fixture
 
 BOOST_FIXTURE_TEST_CASE(test_replace, Fixture)
 {
-  phonebook.replace(firstPlace, {name3, number3});
+  *firstPlace = {name3, number3};
   BOOST_CHECK_EQUAL(firstPlace->number, number3);
   BOOST_CHECK_EQUAL(firstPlace->name, name3);
-  phonebook.replace(lastPlace, {name1, number1});
+  *lastPlace = {name1, number1};
   BOOST_CHECK_EQUAL(lastPlace->number, number1);
   BOOST_CHECK_EQUAL(lastPlace->name, name1);
 }

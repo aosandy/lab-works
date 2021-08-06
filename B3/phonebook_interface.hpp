@@ -53,7 +53,7 @@ public:
   void deleteRecord(const std::string&, std::ostream&);
   void show(const std::string&, std::ostream&) const;
   void move(const std::string&, steps_t, std::ostream&);
-  void displayErrorMessage(PhonebookInterface::ErrorMessage, std::ostream&) const;
+  static void displayErrorMessage(PhonebookInterface::ErrorMessage, std::ostream&);
 
 private:
   Phonebook phonebook_;

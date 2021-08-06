@@ -1,3 +1,5 @@
+#include <stdexcept>
+
 #include <boost/test/unit_test.hpp>
 
 #include "factorial_container.hpp"
@@ -9,7 +11,7 @@ BOOST_AUTO_TEST_CASE(test_iterators)
   FactorialContainer factorialContainer(10);
   size_t factorial = 1;
   size_t number = 1;
-  for (const_iterator it = factorialContainer.begin(); it != factorialContainer.end(); ++it, ++number)
+  for (auto it = factorialContainer.begin(); it != factorialContainer.end(); ++it, ++number)
   {
     factorial *= number;
     BOOST_CHECK_EQUAL(factorial, *it);
@@ -25,13 +27,15 @@ BOOST_AUTO_TEST_CASE(test_iterators)
 
 BOOST_AUTO_TEST_CASE(test_empty)
 {
-  FactorialContainer emptyContainer(0);
+  FactorialContainer emptyContainer;
   BOOST_CHECK_THROW(--emptyContainer.begin(), std::out_of_range);
   BOOST_CHECK_THROW(++emptyContainer.begin(), std::out_of_range);
   BOOST_CHECK_THROW(--emptyContainer.rbegin(), std::out_of_range);
   BOOST_CHECK_THROW(++emptyContainer.rbegin(), std::out_of_range);
   BOOST_CHECK_THROW(--emptyContainer.end(), std::out_of_range);
   BOOST_CHECK_THROW(++emptyContainer.rend(), std::out_of_range);
+  BOOST_CHECK(emptyContainer.begin() == emptyContainer.end());
+  BOOST_CHECK(emptyContainer.rbegin() == emptyContainer.rend());
 }
 
 BOOST_AUTO_TEST_CASE(test_overflow)

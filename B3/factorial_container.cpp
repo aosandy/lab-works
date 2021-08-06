@@ -2,17 +2,17 @@
 
 #include <stdexcept>
 
-const_iterator::pointer const_iterator::operator->() const
+FactorialContainer::const_iterator::pointer FactorialContainer::const_iterator::operator->() const
 {
   return factorial_;
 }
 
-const_iterator::reference const_iterator::operator*() const
+FactorialContainer::const_iterator::reference FactorialContainer::const_iterator::operator*() const
 {
   return factorial_;
 }
 
-const_iterator &const_iterator::operator++()
+FactorialContainer::const_iterator &FactorialContainer::const_iterator::operator++()
 {
   if (number_ > maxNumber_)
   {
@@ -22,14 +22,14 @@ const_iterator &const_iterator::operator++()
   return *this;
 }
 
-const_iterator const_iterator::operator++(int)
+FactorialContainer::const_iterator FactorialContainer::const_iterator::operator++(int)
 {
   const_iterator iterator = *this;
   ++(*this);
   return iterator;
 }
 
-const_iterator &const_iterator::operator--()
+FactorialContainer::const_iterator &FactorialContainer::const_iterator::operator--()
 {
   if (number_ <= 1)
   {
@@ -39,24 +39,24 @@ const_iterator &const_iterator::operator--()
   return *this;
 }
 
-const_iterator const_iterator::operator--(int)
+FactorialContainer::const_iterator FactorialContainer::const_iterator::operator--(int)
 {
   const_iterator iterator = *this;
   --(*this);
   return iterator;
 }
 
-bool const_iterator::operator==(const const_iterator &iterator) const
+bool FactorialContainer::const_iterator::operator==(const const_iterator &iterator) const
 {
   return number_ == iterator.number_;
 }
 
-bool const_iterator::operator!=(const const_iterator &iterator) const
+bool FactorialContainer::const_iterator::operator!=(const const_iterator &iterator) const
 {
   return number_ != iterator.number_;
 }
 
-const_iterator::const_iterator(size_t number, size_t factorial, size_t maxNumber):
+FactorialContainer::const_iterator::const_iterator(size_t number, size_t factorial, size_t maxNumber):
   number_(number),
   factorial_(factorial),
   maxNumber_(maxNumber)
@@ -68,7 +68,7 @@ FactorialContainer::FactorialContainer(size_t maxNumber):
 {
   for (size_t i = 1; i <= maxNumber_ + 1; i++)
   {
-    if (maxFactorial_ > SIZE_MAX / i)
+    if (maxFactorial_ > (SIZE_MAX / i))
     {
       throw std::overflow_error("Factorial value is too big");
     }
@@ -76,12 +76,12 @@ FactorialContainer::FactorialContainer(size_t maxNumber):
   }
 }
 
-const_iterator FactorialContainer::begin() const
+FactorialContainer::const_iterator FactorialContainer::begin() const
 {
   return const_iterator(1, 1, maxNumber_);
 }
 
-const_iterator FactorialContainer::end() const
+FactorialContainer::const_iterator FactorialContainer::end() const
 {
   return const_iterator(maxNumber_ + 1, maxFactorial_, maxNumber_);
 }

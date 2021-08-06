@@ -13,7 +13,6 @@ using Command = std::function<void(PhonebookInterface&, std::ostream&)>;
 
 Command parse(const std::string&);
 
-std::istream& operator>>(std::istream&, Phonebook::record_t&);
 std::istream& operator>>(std::istream&, PhonebookInterface::Place&);
 std::istream& operator>>(std::istream&, PhonebookInterface::steps_t&);
 

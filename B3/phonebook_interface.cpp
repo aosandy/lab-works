@@ -84,12 +84,12 @@ void PhonebookInterface::deleteRecord(const std::string& name, std::ostream &out
   std::string markName = mark->first;
   for (auto &bookmark : bookmarks_)
   {
-    if ((bookmark.second == markRec) && (bookmark.first != markName))
+    if (bookmark.second == markRec)
     {
       bookmark.second++;
     }
   }
-  mark->second = phonebook_.erase(mark->second);
+  phonebook_.erase(markRec);
   if (!phonebook_.isEmpty())
   {
     moveMarks();
@@ -176,7 +176,7 @@ void PhonebookInterface::moveMarks()
   }
 }
 
-void PhonebookInterface::displayErrorMessage(PhonebookInterface::ErrorMessage message, std::ostream &out) const
+void PhonebookInterface::displayErrorMessage(PhonebookInterface::ErrorMessage message, std::ostream &out)
 {
   switch (message)
   {

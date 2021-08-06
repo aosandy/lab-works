@@ -1,8 +1,72 @@
 #include "phonebook.hpp"
 
-void Phonebook::replace(const iterator &it, const record_t &rec)
+#include <iostream>
+#include <string>
+
+std::istream& operator>>(std::istream &in, Phonebook::record_t &rec)
 {
-  *it = rec;
+  std::string number;
+  in >> std::ws;
+  if (!in)
+  {
+    in.setstate(std::ios::failbit);
+    return in;
+  }
+  in >> number;
+  if (number.empty())
+  {
+    return in;
+  }
+  for (char i : number)
+  {
+    if (!isdigit(i))
+    {
+      in.setstate(std::ios::failbit);
+      return in;
+    }
+  }
+  std::string name;
+  in >> std::ws;
+  if (!in)
+  {
+    in.setstate(std::ios::failbit);
+    return in;
+  }
+  char ch = '\0';
+  in >> ch;
+  if (ch != '\"')
+  {
+    in.setstate(std::ios::failbit);
+    return in;
+  }
+  bool slashFlag = false;
+  while (in.get(ch))
+  {
+    if (slashFlag)
+    {
+      slashFlag = false;
+      if ((ch == '\\') || (ch == '\"'))
+      {
+        name.pop_back();
+      }
+    }
+    else
+    {
+      if (ch == '\"')
+      {
+        break;
+      }
+      slashFlag = (ch == '\\');
+    }
+    name.push_back(ch);
+  }
+  if (ch != '\"')
+  {
+    in.setstate(std::ios::failbit);
+  }
+  rec.name = name;
+  rec.number = number;
+  return in;
 }
 
 Phonebook::iterator Phonebook::erase(const iterator &it)
@@ -39,6 +103,16 @@ Phonebook::iterator Phonebook::begin()
 Phonebook::iterator Phonebook::end()
 {
   return records_.end();
+}
+
+Phonebook::const_iterator Phonebook::begin() const
+{
+  return records_.cbegin();
+}
+
+Phonebook::const_iterator Phonebook::end() const
+{
+  return records_.cend();
 }
 
 Phonebook::const_iterator Phonebook::cbegin() const

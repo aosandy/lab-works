@@ -22,7 +22,15 @@ int main(int argc, char *argv[])
   switch (number)
   {
     case 1:
-      doTask1();
+      try
+      {
+        doTask1();
+      }
+      catch (std::exception &ex)
+      {
+        std::cerr << ex.what() << '\n';
+        return 2;
+      }
       break;
     case 2:
       try

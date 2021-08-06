@@ -1,6 +1,7 @@
-#include <boost/test/unit_test.hpp>
 #include <string>
 #include <sstream>
+
+#include <boost/test/unit_test.hpp>
 
 #include "phonebook_interface.hpp"
 

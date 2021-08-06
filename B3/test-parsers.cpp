@@ -1,6 +1,7 @@
-#include <boost/test/unit_test.hpp>
 #include <sstream>
 #include <string>
+
+#include <boost/test/unit_test.hpp>
 
 #include "parsers.hpp"
 
@@ -13,6 +14,8 @@ struct Fixture
   Command command;
   PhonebookInterface phonebook;
   const std::string INVALID_COMMAND = "<INVALID COMMAND>\n";
+  const PhonebookInterface::steps_t stepsLast = {PhonebookInterface::LAST,
+      PhonebookInterface::KEYWORD};
 };
 
 BOOST_FIXTURE_TEST_CASE(test_record_input, Fixture)
@@ -167,6 +170,22 @@ BOOST_FIXTURE_TEST_CASE(test_invalid_move_parser, Fixture)
   command = parse(input);
   command(phonebook, stream);
   BOOST_CHECK_EQUAL(stream.str(), "<INVALID STEP>\n");
+}
+
+BOOST_FIXTURE_TEST_CASE(test_slash_processing, Fixture)
+{
+  input = R"(add 123 "\\\\b")";
+  command = parse(input);
+  command(phonebook, stream);
+  phonebook.show("current", stream);
+  BOOST_CHECK_EQUAL(stream.str(), "123 \\\\b\n");
+  stream.str("");
+  input = R"(add 456 "\\a\\\\b\\\\\"\"c\\\\")";
+  command = parse(input);
+  command(phonebook, stream);
+  phonebook.move("current", stepsLast, stream);
+  phonebook.show("current", stream);
+  BOOST_CHECK_EQUAL(stream.str(), "456 \\a\\\\b\\\\\"\"c\\\\\n");
 }
 
 BOOST_AUTO_TEST_SUITE_END()
